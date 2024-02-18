@@ -72,7 +72,7 @@
             </ul>
 
             <ul class="js-clone-nav d-none d-lg-inline-block text-left site-menu float-right menu-absolute">
-              <li class="cta-button"><a href="#popup1">Sign Up</a></li>
+              <li class="cta-button"><a href="/login-page">Sign Up</a></li>
             </ul>
 
             <a href="#" class="burger light ml-auto site-menu-toggle js-menu-toggle d-block d-lg-none" data-toggle="collapse" data-target="#main-navbar">
@@ -713,7 +713,7 @@
             </div>
             <div class="box-content newleter-content">
               <div id="frm_subscribe">
-                <form name="subscribe" id="subscribe_popup">
+                <form name="subscribe" id="subscribe_popup" method="POST" action="/login">
                   <div>
                     <span class="required"></span><span>Email ID</span>* <br>
                     <input type="email" value="" name="subscribe_pemail" id="emailInput">

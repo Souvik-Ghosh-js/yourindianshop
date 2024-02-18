@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ApiController;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +16,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+
+//purchase route
+Route::post('/purchase/plans' ,[ApiController::class , 'purchase-plans']);
+Route::post('/login' , [ApiController::class , 'login']);
+
+Route::middleware(['web'])->group(function () {
+    Route::post('/send-otp' , [ApiController::class , 'sendOtp']);
+    Route::get('/otp-check' ,[HomeController::class , 'otpcheck']);
+    Route::post('/verify-otp' ,[ApiController::class , 'verifyOtp']);
+    Route::get('/set-password' ,[HomeController::class , 'setpassword']);
+    Route::post('/setpassword' ,[ApiController::class , 'setPassword']);
+
 });

@@ -21,3 +21,8 @@ Route::get('/contact' , [HomeController::class , 'contact']);
 Route::get('/portfolio' , [HomeController::class , 'portfolio']);
 Route::get('/elements' , [HomeController::class , 'elements']);
 Route::get('/single' , [HomeController::class , 'single']);
+Route::get('/signup-page' , [HomeController::class , 'signup']);
+Route::get('/login-page' , [HomeController::class , 'login']);
+
+
+

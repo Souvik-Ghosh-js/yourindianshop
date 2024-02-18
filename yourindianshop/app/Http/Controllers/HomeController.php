@@ -24,4 +24,16 @@ class HomeController extends Controller
     public function single(){
         return view('single');
     }
+    public function signup(){
+        return view('signup');
+    }
+    public function login(){
+        return view('login');
+    }
+    public function otpcheck(){
+        return view('otpcheck');
+    }
+    public function setpassword(){
+        return view('setpage');
+    }
 }
