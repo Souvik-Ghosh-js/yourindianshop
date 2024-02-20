@@ -20,6 +20,7 @@ use App\Http\Controllers\HomeController;
 //purchase route
 Route::post('/purchase/plans' ,[ApiController::class , 'purchase-plans']);
 Route::post('/login' , [ApiController::class , 'login']);
+Route::get('/verify-email/{token}', [ApiController::class , 'verifyEmail']);
 
 Route::middleware(['web'])->group(function () {
     Route::post('/send-otp' , [ApiController::class , 'sendOtp']);
@@ -27,5 +28,6 @@ Route::middleware(['web'])->group(function () {
     Route::post('/verify-otp' ,[ApiController::class , 'verifyOtp']);
     Route::get('/set-password' ,[HomeController::class , 'setpassword']);
     Route::post('/setpassword' ,[ApiController::class , 'setPassword']);
+    Route::post('/signup',[ApiController::class , 'signup']);
 
 });

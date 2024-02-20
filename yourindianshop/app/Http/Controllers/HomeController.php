@@ -15,25 +15,26 @@ class HomeController extends Controller
     public function contact(){
         return view('contact');
     }
-    public function elements(){
-        return view('elements');
+    public function faq(){
+        return view('faq');
     }
-    public function portfolio(){
-        return view('portfolio');
+    public function pricing(){
+        return view('pricing');
     }
-    public function single(){
-        return view('single');
+    public function product_detail(){
+        return view('product-detail');
+    }
+    public function products(){
+        return view('products');
+    }
+    public function shipping(){
+        return view('shippincal');
     }
     public function signup(){
-        return view('signup');
+        return view('sign-up');
     }
     public function login(){
-        return view('login');
+        return view('sign-in');
     }
-    public function otpcheck(){
-        return view('otpcheck');
-    }
-    public function setpassword(){
-        return view('setpage');
-    }
+
 }
