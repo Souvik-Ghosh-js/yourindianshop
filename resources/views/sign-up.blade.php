@@ -155,17 +155,6 @@ https://www.tooplate.com/view/2127-little-fashion
                                                 gap: 10px;
                                             }
                                         </style>
-                                        <div class="form">
-                                            <input type="radio" id="yearly" name="plan" value="1">
-                                            <label for="premium">yearly</label><br>
-                                            <input type="radio" id="half-yearly" name="plan" value="2">
-                                            <label for="css">Half yearly</label><br>
-                                            <input type="radio" id="Monthly" name="plan" value="3">
-                                            <label for="css">Monthly</label><br>
-                                        </div>
-                                        <div class="form mt-4">
-                                        <a href="/pricing">See pricing Plans <i class="bi-arrow-right ms-2"></i></a>
-                                        </div>
                                         <p class="text-center mt-3">By creating an account you agree to YIS's<a href=""> Terms of Service</a> and <a href=""> Privacy Policy</a></p>
                                         <button type="submit" class="btn custom-btn form-control mt-4 mb-3">
                                             Create account

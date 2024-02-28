@@ -11,7 +11,7 @@ class Product extends Model
     protected $primaryKey = 'product_id';
     protected $keyType = 'string';
     protected $fillable = [
-       'name', 'product_id', 'description', 'user_id','remark', 'warehouse_id', 'image', 'status', 'payment_status'
+       'name', 'product_id', 'description', 'user_id','remark', 'warehouse_id', 'image', 'status', 'payment_status' , 'dimension' , 'address'
     ];
 
 }

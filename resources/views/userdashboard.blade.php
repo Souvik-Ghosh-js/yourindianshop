@@ -39,9 +39,11 @@
 <ul class="nav user-menu">
 
 <li class="nav-item dropdown">
-<a href="javascript:void(0);" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
-<img src="assets/img/icons/notification-bing.svg" alt="img"> <span class="badge rounded-pill">4</span>
+<a id="notificationButton" href="javascript:void(0);" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
+    <img src="assets/img/icons/notification-bing.svg" alt="img">
+    <span class="badge rounded-pill">4</span>
 </a>
+
 <div class="dropdown-menu notifications">
 <div class="topnav-dropdown-header">
 <span class="notification-title">Notifications</span>
@@ -357,6 +359,8 @@
 <th>Description</th>
 
 <th>Status</th>
+<th>Address</th>
+
 <th> Date</th>
 </tr>
 </thead>
@@ -366,8 +370,9 @@
                         <tr>
                             <td>
                                 @if ($product->status === 'Received')
-                                    <a class="badges bg-lightgreen" style="color:#fff; text-decoration: none;" onclick="showConfirmation('Dispatch')">Request Dispatch</a>
-                                    <a class="badges bg-lightred" style="color:#fff; text-decoration: none;" onclick="showConfirmation('Return')">Request Return</a>
+                                <a class="badges bg-lightgreen" style="color:#fff; text-decoration: none;" onclick="showConfirmation1('Dispatch')">Request Dispatch</a>
+
+<a class="badges bg-lightred" style="color:#fff; text-decoration: none;" onclick="showConfirmation2('Return')">Request Return</a>
                                 @else
                                     <span>Your Product is {{$product->status}}</span>
                                 @endif
@@ -376,6 +381,8 @@
                             <td>{{ $product->name }}</td>
                             <td>{{ $product->description }}</td>
                             <td><span class="">{{ $product->status }}</span></td>
+                            <td>{{ $product->address }}</td>
+
                             <td>{{ $product->created_at->format('d-m-Y') }}</td>
                         </tr>
                     @endforeach
@@ -443,50 +450,149 @@
 
 <div class="confirmation-popup" id="confirmationPopup">
     <h2>Confirm Action</h2>
-    <p>Are you sure you want to <span id="confirmationAction"></span>?</p>
-    <button class="yes" onclick="confirmAction(true)">Yes</button>
-    <button class="no" onclick="confirmAction(false)">No</button>
+    <p>Enter Your Address
+        <span id="confirmationAction1">
+        @foreach ($products as $product)
+
+            <form method="post" action="api/add/address">
+                <div class="row">
+                    <div class="col-lg-6 col-sm-8 col-12">
+                    <input type="hidden" name="productId" value="{{ $product->product_id }}">
+
+                        <div class="form-group">
+                            <label>Country<span class="mandatory">*</span></label>
+                            <input type="text" name="country" id="country" placeholder="Country">
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-8 col-12">
+                        <div class="form-group">
+                            <label>City<span class="mandatory">*</span></label>
+                            <input type="text" name="city" id="city" placeholder="City">
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-8 col-12">
+                        <div class="form-group">
+                            <label>Postal Code<span class="mandatory">*</span></label>
+                            <input type="text" name="postalCode" id="postalCode" placeholder="Postal Code">
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-8 col-12">
+                        <div class="form-group">
+                            <label>Landmark<span class="mandatory">*</span></label>
+                            <input type="text" name="landmark" id="landmark" placeholder="Landmark">
+                        </div>
+                    </div>
+                </div>
+                <button class="yes" onclick="confirmAction(true, 'Dispatch')">Confirm</button>
+                <button class="no" onclick="confirmAction(false)">No</button>
+            </form>
+            @endforeach
+
+        </span>
+    </p>
+</div>
+
+<div class="confirmation-popup" id="confirmationPopup2">
+    <h2>Confirm Action</h2>
+    <p>Enter Your Address
+        <span id="confirmationAction2">
+            <p>Please cancel from your ordered Application/website</p>
+            <button class="yes" onclick="confirmAction(true, 'Cancel')">Confirm</button>
+            <button class="no" onclick="confirmAction(false)">No</button>
+        </span>
+    </p>
 </div>
 
 <script>
-function showConfirmation(action) {
-    document.getElementById('confirmationAction').textContent = action;
-    document.getElementById('confirmationPopup').style.display = 'block';
-}
+     $(document).ready(function () {
+        // Function to handle the click event on the notification button
+        $('#notificationButton').click(function () {
+            // Fetch notifications from the API
+            $.ajax({
+                url: '/api/getNotifications',
+                method: 'GET',
+                data: {
+                    user_id: 1,  // Replace with the actual user ID
+                    warehouse_id: 1,  // Replace with the actual warehouse ID
+                    self: 1,
+                    read: 0
+                },
+                success: function (response) {
+                    // Update the notification dropdown with the received data
+                    updateNotificationDropdown(response.notifications);
+                },
+                error: function (error) {
+                    console.error('Error fetching notifications:', error);
+                }
+            });
+        });
 
-function confirmAction(confirmation) {
-    if (confirmation) {
-        // Here you can call the appropriate function based on the action
-        const action = document.getElementById('confirmationAction').textContent;
-        if (action === 'Dispatch') {
-            // Dispatch function
-            showNotification(' Request Dispatch successful', 'green');
-        } else if (action === 'Return') {
-            // Return function
-            showNotification(' Request Return successful', 'red');
+        // Function to update the notification dropdown with the received data
+        function updateNotificationDropdown(notifications) {
+            // Clear existing notifications
+            $('.notification-list').empty();
+
+            // Add new notifications
+            notifications.forEach(function (notification) {
+                var listItem = '<li class="notification-message">' +
+                    '<a href="#">' +
+                    '<div class="media d-flex">' +
+                    '<span class="avatar flex-shrink-0">' +
+                    '<img alt="" src="' + notification.avatar + '">' +
+                    '</span>' +
+                    '<div class="media-body flex-grow-1">' +
+                    '<p class="noti-details"><span class="noti-title">' + notification.title + '</span> ' +
+                    notification.message +
+                    '</p>' +
+                    '<p class="noti-time"><span class="notification-time">' + notification.time + '</span></p>' +
+                    '</div>' +
+                    '</div>' +
+                    '</a>' +
+                    '</li>';
+
+                $('.notification-list').append(listItem);
+            });
         }
+    });
+    function showConfirmation1(action) {
+        document.getElementById('confirmationAction1').textContent = action;
+        document.getElementById('confirmationPopup').style.display = 'block';
     }
-    document.getElementById('confirmationPopup').style.display = 'none';
-}
 
-function showNotification(message, color) {
-    const notification = document.createElement('div');
-    notification.textContent = message;
-    notification.style.backgroundColor = color;
-    notification.style.color = '#fff';
-    notification.style.padding = '10px';
-    notification.style.position = 'fixed';
-    notification.style.top = '10px';
-    notification.style.right = '10px';
-    notification.style.borderRadius = '5px';
-    notification.style.zIndex = '9999';
-    document.body.appendChild(notification);
+    function showConfirmation2(action) {
+        document.getElementById('confirmationAction2').textContent = action;
+        document.getElementById('confirmationPopup2').style.display = 'block';
+    }
 
-    // Remove notification after 3 seconds
-    setTimeout(() => {
-        document.body.removeChild(notification);
-    }, 3000);
-}
+    function confirmAction(confirmation, action) {
+        if (confirmation) {
+            // Here you can call the appropriate function based on the action
+            if (action === 'Dispatch') {
+                // Dispatch function
+                showNotification('Request Dispatch successful', 'green');
+            } else if (action === 'Return') {
+                // Return function
+                showNotification('Request Return successful', 'red');
+            }
+        }
+        document.getElementById('confirmationPopup').style.display = 'none';
+        document.getElementById('confirmationPopup2').style.display = 'none';
+    }
+
+    function showNotification(message, color) {
+        const notification = document.createElement('div');
+        notification.textContent = message;
+        notification.style.backgroundColor = color;
+        notification.style.color = '#fff';
+        notification.style.padding = '10px';
+        notification.style.position = 'fixed';
+        notification.style.top = '10px';
+        notification.style.right = '10px';
+        notification.style.borderRadius = '5px';
+        notification.style.zIndex = '9999';
+        document.body.appendChild(notification);
+
+    }
 </script>
 
 

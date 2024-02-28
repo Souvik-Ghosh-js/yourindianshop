@@ -214,6 +214,7 @@
 
 <th>Description</th>
 <th>Status</th>
+<th>Address</th>
 <th> Date</th>
 </tr>
 </thead>
@@ -234,6 +235,8 @@
                 {{ $product->description }}
             </td>
             <td><span class="">{{ $product->status }}</span></td>
+            <td>{{ $product->address }}</td>
+
             <td>{{ $product->created_at->format('d-m-Y') }}</td>
         </tr>
     @endforeach

@@ -141,7 +141,7 @@
 
 <div class="card">
                 <div class="card-body">
-                    <form action="/api/change-status/{{$product->product_id}}" method="post">
+                    <form action="/api/change-status/{{$product->product_id}}" method="post" enctype="multipart/form-data">
                         @csrf
                         @method('put')
 
@@ -175,6 +175,23 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="col-lg-3 col-sm-6 col-12">
+                                <div class="form-group">
+                                    <label>Product Dimentions</label>
+                                    <input type="text" value=" " placeholder="Enter product name" name="dimension">
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+        <div class="form-group">
+        <label> Product Image<span class="manitory">*</span></label>
+        <div class="image-upload">
+        <input type="file" name="image" id="image">
+        <div class="image-uploads">
+        <img src="assets/img/icons/upload.svg" alt="img">
+        <h4>Drag and drop a file to upload</h4>
+        </div>
+        </div>
+        </div>
                             <div class="col-lg-12">
                                 <button type="submit" class="btn btn-submit me-2">Update</button>
                                 <a href="/" class="btn btn-cancel">Cancel</a>

@@ -6,6 +6,7 @@ use App\Http\Controllers\ApiController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\NotificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +27,9 @@ Route::get('/verify-email/{token}', [ApiController::class , 'verifyEmail']);
 Route::post('/add-warehouse' , [WarehouseController::class , 'addwarehouse']);
 Route::post('/PAR' , [ProductController::class , 'PAR']);
 Route::put('/change-status/{id}' , [ProductController::class , 'changestatus']);
+Route::post('add/address' ,[ProductController::class , 'addAddress']);
+Route::post('/get-notifications' ,[NotificationController::class , 'getNotifications']);
+
 
 
 Route::middleware(['web'])->group(function () {
