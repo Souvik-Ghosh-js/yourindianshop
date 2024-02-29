@@ -51,71 +51,29 @@
 </div>
 <div class="noti-content">
 <ul class="notification-list">
-<li class="notification-message">
-<a href="">
-<div class="media d-flex">
-<span class="avatar flex-shrink-0">
-<img alt="" src="assets/img/profiles/avatar-02.jpg">
-</span>
-<div class="media-body flex-grow-1">
-<p class="noti-details"><span class="noti-title">John Doe</span> added new task <span class="noti-title">Patient appointment booking</span></p>
-<p class="noti-time"><span class="notification-time">4 mins ago</span></p>
-</div>
-</div>
-</a>
-</li>
-<li class="notification-message">
-<a href="">
-<div class="media d-flex">
-<span class="avatar flex-shrink-0">
-<img alt="" src="assets/img/profiles/avatar-03.jpg">
-</span>
-<div class="media-body flex-grow-1">
-<p class="noti-details"><span class="noti-title">Tarah Shropshire</span> changed the task name <span class="noti-title">Appointment booking with payment gateway</span></p>
-<p class="noti-time"><span class="notification-time">6 mins ago</span></p>
-</div>
-</div>
-</a>
-</li>
-<li class="notification-message">
-<a href="">
-<div class="media d-flex">
-<span class="avatar flex-shrink-0">
-<img alt="" src="assets/img/profiles/avatar-06.jpg">
-</span>
-<div class="media-body flex-grow-1">
-<p class="noti-details"><span class="noti-title">Misty Tison</span> added <span class="noti-title">Domenic Houston</span> and <span class="noti-title">Claire Mapes</span> to project <span class="noti-title">Doctor available module</span></p>
-<p class="noti-time"><span class="notification-time">8 mins ago</span></p>
-</div>
-</div>
-</a>
-</li>
-<li class="notification-message">
-<a href="">
-<div class="media d-flex">
-<span class="avatar flex-shrink-0">
-<img alt="" src="assets/img/profiles/avatar-17.jpg">
-</span>
-<div class="media-body flex-grow-1">
-<p class="noti-details"><span class="noti-title">Rolland Webber</span> completed task <span class="noti-title">Patient and Doctor video conferencing</span></p>
-<p class="noti-time"><span class="notification-time">12 mins ago</span></p>
-</div>
-</div>
-</a>
-</li>
-<li class="notification-message">
-<a href="">
-<div class="media d-flex">
-<span class="avatar flex-shrink-0">
-<img alt="" src="assets/img/profiles/avatar-13.jpg">
-</span>
-<div class="media-body flex-grow-1">
-<p class="noti-details"><span class="noti-title">Bernardo Galaviz</span> added new task <span class="noti-title">Private chat module</span></p>
-<p class="noti-time"><span class="notification-time">2 days ago</span></p>
-</div>
-</div>
-</a>
-</li>
+<!-- <div class="notification-list"> -->
+    @foreach ($notifications as $notification)
+        <li class="notification-message">
+            <a href="">
+                <div class="media d-flex">
+                    <span class="avatar flex-shrink-0">
+                        <img alt="" src="assets/img/profiles/avatar-04.jpg">
+                    </span>
+                    <div class="media-body flex-grow-1">
+                        <p class="noti-details">
+                            {{ $notification->message }}
+                        </p>
+                    </div>
+                </div>
+            </a>
+        </li>
+    @endforeach
+<!-- </div> -->
+
+
+
+
+
 </ul>
 </div>
 </div>
@@ -452,41 +410,45 @@
     <h2>Confirm Action</h2>
     <p>Enter Your Address
         <span id="confirmationAction1">
-        @foreach ($products as $product)
 
-            <form method="post" action="api/add/address">
-                <div class="row">
-                    <div class="col-lg-6 col-sm-8 col-12">
-                    <input type="hidden" name="productId" value="{{ $product->product_id }}">
 
-                        <div class="form-group">
-                            <label>Country<span class="mandatory">*</span></label>
-                            <input type="text" name="country" id="country" placeholder="Country">
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-sm-8 col-12">
-                        <div class="form-group">
-                            <label>City<span class="mandatory">*</span></label>
-                            <input type="text" name="city" id="city" placeholder="City">
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-sm-8 col-12">
-                        <div class="form-group">
-                            <label>Postal Code<span class="mandatory">*</span></label>
-                            <input type="text" name="postalCode" id="postalCode" placeholder="Postal Code">
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-sm-8 col-12">
-                        <div class="form-group">
-                            <label>Landmark<span class="mandatory">*</span></label>
-                            <input type="text" name="landmark" id="landmark" placeholder="Landmark">
-                        </div>
-                    </div>
+        <form method="post" action="api/add/address">
+        <div class="row">
+            <div class="col-lg-6 col-sm-8 col-12">
+    @foreach ($products as $product)
+
+                <input type="hidden" name="productId" value="{{ $product->product_id }}">
+    @endforeach
+
+                <div class="form-group">
+                    <label>Country<span class="mandatory">*</span></label>
+                    <input type="text" name="country" id="country" placeholder="Country">
                 </div>
-                <button class="yes" onclick="confirmAction(true, 'Dispatch')">Confirm</button>
-                <button class="no" onclick="confirmAction(false)">No</button>
-            </form>
-            @endforeach
+            </div>
+            <div class="col-lg-6 col-sm-8 col-12">
+                <div class="form-group">
+                    <label>City<span class="mandatory">*</span></label>
+                    <input type="text" name="city" id="city" placeholder="City">
+                </div>
+            </div>
+            <div class="col-lg-6 col-sm-8 col-12">
+                <div class="form-group">
+                    <label>Postal Code<span class="mandatory">*</span></label>
+                    <input type="text" name="postalCode" id="postalCode" placeholder="Postal Code">
+                </div>
+            </div>
+            <div class="col-lg-6 col-sm-8 col-12">
+                <div class="form-group">
+                    <label>Landmark<span class="mandatory">*</span></label>
+                    <input type="text" name="landmark" id="landmark" placeholder="Landmark">
+                </div>
+            </div>
+        </div>
+    <button class="yes" onclick="confirmAction(true, 'Dispatch')">Confirm</button>
+    <button class="no" onclick="confirmAction(false)">No</button>
+</form>
+
+
 
         </span>
     </p>
@@ -504,56 +466,7 @@
 </div>
 
 <script>
-     $(document).ready(function () {
-        // Function to handle the click event on the notification button
-        $('#notificationButton').click(function () {
-            // Fetch notifications from the API
-            $.ajax({
-                url: '/api/getNotifications',
-                method: 'GET',
-                data: {
-                    user_id: 1,  // Replace with the actual user ID
-                    warehouse_id: 1,  // Replace with the actual warehouse ID
-                    self: 1,
-                    read: 0
-                },
-                success: function (response) {
-                    // Update the notification dropdown with the received data
-                    updateNotificationDropdown(response.notifications);
-                },
-                error: function (error) {
-                    console.error('Error fetching notifications:', error);
-                }
-            });
-        });
 
-        // Function to update the notification dropdown with the received data
-        function updateNotificationDropdown(notifications) {
-            // Clear existing notifications
-            $('.notification-list').empty();
-
-            // Add new notifications
-            notifications.forEach(function (notification) {
-                var listItem = '<li class="notification-message">' +
-                    '<a href="#">' +
-                    '<div class="media d-flex">' +
-                    '<span class="avatar flex-shrink-0">' +
-                    '<img alt="" src="' + notification.avatar + '">' +
-                    '</span>' +
-                    '<div class="media-body flex-grow-1">' +
-                    '<p class="noti-details"><span class="noti-title">' + notification.title + '</span> ' +
-                    notification.message +
-                    '</p>' +
-                    '<p class="noti-time"><span class="notification-time">' + notification.time + '</span></p>' +
-                    '</div>' +
-                    '</div>' +
-                    '</a>' +
-                    '</li>';
-
-                $('.notification-list').append(listItem);
-            });
-        }
-    });
     function showConfirmation1(action) {
         document.getElementById('confirmationAction1').textContent = action;
         document.getElementById('confirmationPopup').style.display = 'block';

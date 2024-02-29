@@ -28,12 +28,12 @@ class NotificationController extends Controller
             ->where('read', $read)
             ->get();
 
-        // Update 'read' to 1 for the fetched notifications
-        Notification::where('user_id', $user_id)
-            ->where('warehouse_id', $warehouse_id)
-            ->where('self', $self)
-            ->where('read', $read)
-            ->update(['read' => 1]);
+        // // Update 'read' to 1 for the fetched notifications
+        // Notification::where('user_id', $user_id)
+        //     ->where('warehouse_id', $warehouse_id)
+        //     ->where('self', $self)
+        //     ->where('read', $read)
+        //     ->update(['read' => 1]);
 
         return response()->json(['notifications' => $notifications]);
     }

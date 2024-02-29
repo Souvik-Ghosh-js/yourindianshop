@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('notifications', function (Blueprint $table) {
-            $table->boolean('self')->default(false);
+        Schema::table('user_notifications', function (Blueprint $table) {
+            $table->string('self');
         });
     }
 
@@ -23,7 +23,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('notifications', function (Blueprint $table) {
+        Schema::table('user_notifications', function (Blueprint $table) {
             $table->dropColumn('self');
         });
     }

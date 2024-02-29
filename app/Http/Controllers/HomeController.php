@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Warehouse;
 use App\Models\Product;
+use Illuminate\Support\Facades\DB;
 
 
 class HomeController extends Controller
@@ -40,12 +41,16 @@ class HomeController extends Controller
         return view('sign-in');
     }
     public function userdashboard()
-    {
+{
     $warehouses = Warehouse::all();
     $products = Product::all();
 
-    return view('userdashboard', ['warehouses' => $warehouses, 'products' => $products]);
-    }
+    $notifications = DB::table('user_notifications')
+        ->where('self', 1)
+        ->get();
+
+    return view('userdashboard', ['warehouses' => $warehouses, 'products' => $products, 'notifications' => $notifications]);
+}
 
     public function editproduct($product_id)
     {
@@ -58,8 +63,11 @@ class HomeController extends Controller
     {
     $warehouses = Warehouse::all();
     $products = Product::all();
+    $notifications = DB::table('user_notifications')
+    ->where('self', 0)
+    ->get();
 
-    return view('warehousedashboard', ['warehouses' => $warehouses, 'products' => $products]);
+return view('warehousedashboard', ['warehouses' => $warehouses, 'products' => $products, 'notifications' => $notifications]);
     }
     public function purchasereport(){
         return view('purchasereport');
