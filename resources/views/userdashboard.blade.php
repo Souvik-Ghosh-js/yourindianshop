@@ -41,7 +41,7 @@
 <li class="nav-item dropdown">
 <a id="notificationButton" href="javascript:void(0);" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
     <img src="assets/img/icons/notification-bing.svg" alt="img">
-    <span class="badge rounded-pill">4</span>
+    <span class="badge rounded-pill">0</span>
 </a>
 
 <div class="dropdown-menu notifications">
@@ -90,14 +90,13 @@
     <span class="user-img"><img src="assets/img/profiles/avatar-17.jpg" alt="">
     <span class="status online"></span></span>
     <div class="profilesets">
-    <h6>John Doe</h6>
-    <h5>Admin</h5>
+    <h6>User Name</h6>
     </div>
     </div>
     <hr class="m-0">
-    <a class="dropdown-item" href="profile.html"> <i class="me-2" data-feather="user"></i> My Profile</a>
+    <a class="dropdown-item" href="/user-profile"> <i class="me-2" data-feather="user"></i> My Profile</a>
     <hr class="m-0">
-    <a class="dropdown-item logout pb-0" href="signin.html"><img src="assets/img/icons/log-out.svg" class="me-2" alt="img">Logout</a>
+    <a class="dropdown-item logout pb-0" href="/signup-page"><img src="assets/img/icons/log-out.svg" class="me-2" alt="img">Logout</a>
     </div>
     </div>
     </li>
@@ -107,8 +106,8 @@
 <div class="dropdown mobile-user-menu">
 <a href="javascript:void(0);" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
 <div class="dropdown-menu dropdown-menu-right">
-<a class="dropdown-item" href="profile.html">My Profile</a>
-<a class="dropdown-item" href="signin.html">Logout</a>
+<a class="dropdown-item" href="/user-profile">My Profile</a>
+<a class="dropdown-item" href="/signup-page">Logout</a>
 </div>
 </div>
 
@@ -120,14 +119,14 @@
 <div id="sidebar-menu" class="sidebar-menu">
 <ul>
 <li class="active">
-<a href="index.html"><img src="assets/img/icons/dashboard.svg" alt="img"><span> Dashboard</span> </a>
+<a href=""><img src="assets/img/icons/dashboard.svg" alt="img"><span> Dashboard</span> </a>
 </li>
-<li><a href="">Assisted Purchase</a></li>
+<li><a href="/user-add-product">Assisted Purchase</a></li>
 <li><a href="">Indian Shops</a></li>
 <li><a href="">Prohibited Items</a></li>
-<li><a href="">Shipping Calc</a></li>
+<li><a href="/shipping">Shipping Calc</a></li>
 <li>
-<a href="purchasereport.html"><i data-feather="file"></i><span> Wallet</span> </a>
+<a href="/purchase-report"><i data-feather="file"></i><span> Wallet</span> </a>
 </li>
 </ul>
 </div>
@@ -182,79 +181,6 @@
 </div>
 </div>
 </div>
-<div class="card">
-    <div class="card-body">
-    <div class="requiredfield">
-    </div>
-    <div class="row">
-    <div class="col-lg-3 col-sm-6 col-12">
-    </div>
-    <div class="col-lg-12">
-    <div class="form-group">
-    <h2> Your Warehouse</h2>
-    </div>
-    </div>
-    <div class="col-lg-6 col-sm-12">
-    <div class="productdetails productdetailnew">
-    <ul class="product-bar">
-    @foreach ($warehouses as $warehouse)
-    <li>
-                        <h4>Area</h4>
-                        <h6 class="manitorygreen">{{ $warehouse->area }}</h6>
-                    </li>
-                    <li>
-                        <h4>WarehouseId</h4>
-                        <h6 class="manitorygreen">{{ $warehouse->id }}</h6>
-                    </li>
-                    <li>
-                        <h4>Address</h4>
-                        <h6 class="manitorygreen">{{ $warehouse->address }}</h6>
-                    </li>
-                    <li>
-                        <h4>Street</h4>
-                        <h6 class="manitorygreen">{{ $warehouse->street }}</h6>
-                    </li>
-                    <li>
-                        <h4>Capacity</h4>
-                        <h6 class="manitorygreen">{{ $warehouse->capacity }}</h6>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="col-lg-6 col-sm-12">
-            <div class="productdetails productdetailnew">
-                <ul class="product-bar">
-                    <li>
-                        <h4>Landmark</h4>
-                        <h6 class="manitoryblue">{{ $warehouse->landmark }}</h6>
-                    </li>
-                    <li>
-                        <h4>City</h4>
-                        <h6 class="manitoryblue">{{ $warehouse->city }}</h6>
-                    </li>
-                    <li>
-                        <h4>Pincode</h4>
-                        <h6 class="manitoryblue">{{ $warehouse->pincode }}</h6>
-                    </li>
-                    <li>
-                        <h4>State</h4>
-                        <h6 class="manitoryblue">{{ $warehouse->state }}</h6>
-                    </li>
-                    <li>
-                        <h4>Country</h4>
-                        <h6 class="manitoryblue">{{ $warehouse->country }}</h6>
-                    </li>@endforeach
-    </ul>
-    </div>
-    </div>
-    <div class="col-lg-12">
-    <div class="form-group mb-0">
-    <a href="" class="btn btn-submit me-2">Click Here to change warehouse</a>
-    </div>
-    </div>
-    </div>
-    </div>
-    </div>
     <div class="content">
         <div class="page-header">
         <div class="page-title">
@@ -310,6 +236,11 @@
 <table class="table datatable ">
 <thead>
 <tr>
+<th>
+        <label class="checkboxs">
+            <input type="checkbox" id="select-all">
+            <span class="checkmarks"></span>
+    </th>
 <th>Action</th>
 
 <th>Product Id</th>
@@ -326,11 +257,27 @@
 <tbody>
                     @foreach ($products as $product)
                         <tr>
+                        <td>
+        <label class="checkboxs">
+            <input type="checkbox">
+            <span class="checkmarks"></span>
+    </td>
                             <td>
                                 @if ($product->status === 'Received')
-                                <a class="badges bg-lightgreen" style="color:#fff; text-decoration: none;" onclick="showConfirmation1('Dispatch')">Request Dispatch</a>
+                                <form method="post" action="/api/user/status">
+                                <input type="hidden" name="productId" value="{{ $product->product_id }}">
 
-<a class="badges bg-lightred" style="color:#fff; text-decoration: none;" onclick="showConfirmation2('Return')">Request Return</a>
+                                    @csrf
+                                <button class="badges bg-lightgreen" style="color:#fff; text-decoration: none; outline:none; border: none; padding: 10px 15px"  >Accept</buttton>
+                                </form>
+                                <form method="post" action="/api/user/status1">
+                                <input type="hidden" name="productId" value="{{ $product->product_id }}">
+                                @csrf
+
+                                <button class="badges bg-lightred" style="color:#fff; outline:none; border: none; padding: 10px 15px; text-decoration: none;">Request Return</button>
+                                </form>
+                                <a class="badges bg-lightgreen" style="color:#fff; text-decoration: none;" onclick="showConfirmation1('Address')">Dispatch</a>
+
                                 @else
                                     <span>Your Product is {{$product->status}}</span>
                                 @endif
@@ -406,13 +353,14 @@
     }
 </style>
 
-<div class="confirmation-popup" id="confirmationPopup">
+<div class="confirmation-popup" id="confirmationPopup1">
     <h2>Confirm Action</h2>
     <p>Enter Your Address
         <span id="confirmationAction1">
 
 
         <form method="post" action="api/add/address">
+            @csrf
         <div class="row">
             <div class="col-lg-6 col-sm-8 col-12">
     @foreach ($products as $product)
@@ -444,7 +392,7 @@
                 </div>
             </div>
         </div>
-    <button class="yes" onclick="confirmAction(true, 'Dispatch')">Confirm</button>
+    <button class="yes" onclick="confirmAction(true, '')">Confirm</button>
     <button class="no" onclick="confirmAction(false)">No</button>
 </form>
 
@@ -454,13 +402,14 @@
     </p>
 </div>
 
-<div class="confirmation-popup" id="confirmationPopup2">
+<div class="confirmation-popup" id="confirmationPopup">
     <h2>Confirm Action</h2>
-    <p>Enter Your Address
-        <span id="confirmationAction2">
-            <p>Please cancel from your ordered Application/website</p>
-            <button class="yes" onclick="confirmAction(true, 'Cancel')">Confirm</button>
-            <button class="no" onclick="confirmAction(false)">No</button>
+    <p>
+        <span id="confirmationAction">
+
+        <p>Please cancel from your ordered Application/website</p>
+            <button type="button" class="yes" onclick="confirmAction(true, 'Action')">Confirm</button>
+            <button type="button" class="no" onclick="confirmAction(false)">No</button>
         </span>
     </p>
 </div>
@@ -469,12 +418,12 @@
 
     function showConfirmation1(action) {
         document.getElementById('confirmationAction1').textContent = action;
-        document.getElementById('confirmationPopup').style.display = 'block';
+        document.getElementById('confirmationPopup1').style.display = 'block';
     }
 
-    function showConfirmation2(action) {
-        document.getElementById('confirmationAction2').textContent = action;
-        document.getElementById('confirmationPopup2').style.display = 'block';
+    function showConfirmation(action) {
+        document.getElementById('confirmationAction').textContent = action;
+        document.getElementById('confirmationPopup').style.display = 'block';
     }
 
     function confirmAction(confirmation, action) {
@@ -489,7 +438,7 @@
             }
         }
         document.getElementById('confirmationPopup').style.display = 'none';
-        document.getElementById('confirmationPopup2').style.display = 'none';
+        document.getElementById('confirmationPopup').style.display = 'none';
     }
 
     function showNotification(message, color) {

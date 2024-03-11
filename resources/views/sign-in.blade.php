@@ -7,7 +7,7 @@
         <meta name="description" content="">
         <meta name="author" content="">
 
-        <title>Tooplate's Little Fashion - Sign In Page</title>
+        <title>Your Indian Shop - Sign In Page</title>
 
         <!-- CSS FILES -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -104,7 +104,7 @@ https://www.tooplate.com/view/2127-little-fashion
 
                             <div class="row">
                                 <div class="col-lg-8 col-11 mx-auto">
-                                    <form role="form" method="post" action="/api/login">
+                                    <form role="form" method="post" action="/login">
                                                         @csrf
                                         <div class="form-floating mb-4 p-0">
                                             <input type="email" name="email" id="email" pattern="[^ @]*@[^ @]*" class="form-control" placeholder="Email address" required>
@@ -183,6 +183,7 @@ https://www.tooplate.com/view/2127-little-fashion
             </div>
 
         </footer>
+
 
         <!-- JAVASCRIPT FILES -->
         <script src="js/jquery.min.js"></script>

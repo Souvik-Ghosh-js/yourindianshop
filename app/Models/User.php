@@ -28,7 +28,7 @@ class User extends Authenticatable
     'address',
     'plan',
     'verified',
-    'verification_token'
+    'verification_token', 'type',
     ];
 
     /**

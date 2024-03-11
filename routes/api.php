@@ -7,6 +7,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\AssistedPurchaseController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,23 +22,22 @@ use App\Http\Controllers\NotificationController;
 
 
 //purchase route
+Route::middleware(['web' , 'auth'])->group(function () {
+
 Route::post('/purchase/plans' ,[ApiController::class , 'purchase-plans']);
-Route::post('/login' , [ApiController::class , 'login']);
-Route::get('/verify-email/{token}', [ApiController::class , 'verifyEmail']);
-Route::post('/add-warehouse' , [WarehouseController::class , 'addwarehouse']);
 Route::post('/PAR' , [ProductController::class , 'PAR']);
 Route::put('/change-status/{id}' , [ProductController::class , 'changestatus']);
 Route::post('add/address' ,[ProductController::class , 'addAddress']);
 Route::post('/get-notifications' ,[NotificationController::class , 'getNotifications']);
+Route::post('/user/status' ,[ProductController::class , 'updateStatus']);
+Route::post('/user/status1' ,[ProductController::class , 'updateStatus1']);
+Route::post('/shipcalc' ,[ApiController::class , 'calculate']);
+Route::post('/user-add-product' ,[AssistedPurchaseController::class , 'addProduct']);
+Route::post('/added-products' ,[AssistedPurchaseController::class , 'addedProducts']);
+Route::post('/add/coupons' ,[ApiController::class , 'addcoupons']);
 
-
-
-Route::middleware(['web'])->group(function () {
-    Route::post('/send-otp' , [ApiController::class , 'sendOtp']);
-    Route::get('/otp-check' ,[HomeController::class , 'otpcheck']);
-    Route::post('/verify-otp' ,[ApiController::class , 'verifyOtp']);
-    Route::get('/set-password' ,[HomeController::class , 'setpassword']);
-    Route::post('/setpassword' ,[ApiController::class , 'setPassword']);
-    Route::post('/signup',[ApiController::class , 'signup']);
 
 });
+Route::get('/verify-email/{token}', [ApiController::class , 'verifyEmail']);
+Route::post('/add-warehouse' , [WarehouseController::class , 'addwarehouse']);
+Route::post('/signup',[ApiController::class , 'signup']);

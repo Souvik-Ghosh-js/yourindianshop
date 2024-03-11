@@ -114,6 +114,8 @@ https://www.tooplate.com/view/2127-little-fashion
                                             <option>1</option>
                                             <option>1</option>
                                         </select>
+                                        <input type="hidden" name="type" value="0">
+
                                         <div class="form-floating my-4">
                                             <input type="number" name="contact" id="contact"  class="form-control" placeholder="Phone Number" required>
                                             <label for="email">Phone Number</label>

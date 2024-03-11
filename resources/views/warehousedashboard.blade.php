@@ -17,6 +17,7 @@
 <link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
 
 <link rel="stylesheet" href="assets/css/style.css">
+
 </head>
 <body>
 <div id="global-loader">
@@ -40,7 +41,7 @@
 
 <li class="nav-item dropdown">
 <a href="javascript:void(0);" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
-<img src="assets/img/icons/notification-bing.svg" alt="img"> <span class="badge rounded-pill">4</span>
+<img src="assets/img/icons/notification-bing.svg" alt="img"> <span class="badge rounded-pill">0</span>
 </a>
 <div class="dropdown-menu notifications">
 <div class="topnav-dropdown-header">
@@ -65,9 +66,6 @@
             </a>
         </li>
     @endforeach
-
-
-
 </ul>
 </div>
 </div>
@@ -88,80 +86,34 @@
 
 <div class="page-wrapper">
 <div class="content">
-<div class="card">
-    <div class="card-body">
-    <div class="requiredfield">
-    </div>
-    <div class="row">
-    <div class="col-lg-3 col-sm-6 col-12">
-    </div>
-    <div class="col-lg-12">
-    <div class="form-group">
-    <h2> Your Warehouse</h2>
-    </div>
-    </div>
-    <div class="col-lg-6 col-sm-12">
-    <div class="productdetails productdetailnew">
-    <ul class="product-bar">
-    <li>@foreach ($warehouses as $warehouse)
-                        <h4>Area</h4>
-                        <h6 class="manitorygreen">{{ $warehouse->area }}</h6>
-                    </li>
-                    <li>
-                        <h4>WarehouseId</h4>
-                        <h6 class="manitorygreen">{{ $warehouse->id }}</h6>
-                    </li>
-                    <li>
-                        <h4>Address</h4>
-                        <h6 class="manitorygreen">{{ $warehouse->address }}</h6>
-                    </li>
-                    <li>
-                        <h4>Street</h4>
-                        <h6 class="manitorygreen">{{ $warehouse->street }}</h6>
-                    </li>
-                    <li>
-                        <h4>Capacity</h4>
-                        <h6 class="manitorygreen">{{ $warehouse->capacity }}</h6>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="col-lg-6 col-sm-12">
-            <div class="productdetails productdetailnew">
-                <ul class="product-bar">
-                    <li>
-                        <h4>Landmark</h4>
-                        <h6 class="manitoryblue">{{ $warehouse->landmark }}</h6>
-                    </li>
-                    <li>
-                        <h4>City</h4>
-                        <h6 class="manitoryblue">{{ $warehouse->city }}</h6>
-                    </li>
-                    <li>
-                        <h4>Pincode</h4>
-                        <h6 class="manitoryblue">{{ $warehouse->pincode }}</h6>
-                    </li>
-                    <li>
-                        <h4>State</h4>
-                        <h6 class="manitoryblue">{{ $warehouse->state }}</h6>
-                    </li>
-                    <li>
-                        <h4>Country</h4>
-                        <h6 class="manitoryblue">{{ $warehouse->country }}</h6>
-                    </li>@endforeach
-    </ul>
-    </div>
-    </div>
-    </div>
-    </div>
-    </div>
 <div class="card mb-0">
 <div class="card-body">
+    <div class="table-top">
+<div class="search-set">
+<div class="search-input">
+<a class="btn btn-searchset">
+<img src="assets/img/icons/search-white.svg" alt="img">
+</a>
+</div>
+</div>
+<div class="col-lg-2 col-sm-6 col-12">
+<select class="form-control">
+<option>Choose Status</option>
+<option>Inprogress</option>
+<option>Complete</option>
+</select>
+</div>
+</div>
 <h4 class="card-title">Your Couriers in Kailash Nagar</h4>
-<div class="table-responsive dataview">
-<table class="table datatable ">
+<div class="table-responsive">
+<table class="table datanew">
 <thead>
 <tr>
+    <th>
+        <label class="checkboxs">
+            <input type="checkbox" id="select-all">
+            <span class="checkmarks"></span>
+    </th>
 <th>Action</th>
 <th>Product Id</th>
 <th>Product Name</th>
@@ -175,6 +127,11 @@
 <tbody>
     @foreach ($products as $product)
         <tr>
+        <td>
+        <label class="checkboxs">
+            <input type="checkbox">
+            <span class="checkmarks"></span>
+    </td>
         <td>
         <a class="me-3" href="/edit-product/{{$product->product_id}}">
             <img src="assets/img/icons/edit.svg" alt="img">
@@ -213,9 +170,13 @@
 
 <script src="assets/js/bootstrap.bundle.min.js"></script>
 
-<script src="assets/plugins/apexchart/apexcharts.min.js"></script>
-<script src="assets/plugins/apexchart/chart-data.js"></script>
+<script src="assets/js/moment.min.js"></script>
+<script src="assets/js/bootstrap-datetimepicker.min.js"></script>
 
+<script src="assets/plugins/select2/js/select2.min.js"></script>
+<script src="assets/plugins/select2/js/custom-select.js"></script>
+
+<script src="assets/plugins/select2/js/select2.min.js"></script>
 <script src="assets/js/script.js"></script>
 </body>
 </html>

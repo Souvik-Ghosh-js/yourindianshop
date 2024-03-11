@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Passport\Facades\Passport;
@@ -10,6 +10,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\OtpMail;
 use App\Mail\VerifyEmail;
+use App\Models\Coupon;
 
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -20,39 +21,46 @@ use Illuminate\Support\Str;
 class ApiController extends Controller
 {
     public function login(Request $request)
-{
-    $validator = Validator::make($request->all(), [
-        'email' => 'required|email',
-        'password' => 'required',
-    ]);
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
 
-    if ($validator->fails()) {
-        return response()->json(['error' => $validator->errors()], 422);
-    }
-
-    try {
-        $credentials = $request->only('email', 'password');
-
-        if (Auth::attempt($credentials)) {
-            $user = Auth::user();
-
-            // Check if the user is verified
-            if (!$user->verified) {
-                auth()->logout(); // Log out the user
-                return response()->json(['error' => 'Account not verified.'], 401);
-            }
-
-            $token = $user->createToken('AppName')->accessToken;
-
-            return redirect('/');
-        } else {
-            return response()->json(['error' => 'Unauthorized'], 401);
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 422);
         }
-    } catch (\Exception $e) {
-        \Log::error('Error during login: ' . $e->getMessage());
-        return response()->json(['error' => 'Something went wrong'], 500);
+
+        try {
+            $credentials = $request->only('email', 'password');
+
+            if (Auth::attempt($credentials)) {
+                $user = Auth::user();
+
+                if    (!$user->verified) {
+                    auth()->logout(); // Log out the user
+                    return response()->json(['error' => 'Account not verified.'], 401);
+                }
+
+                $token = $user->createToken('AppName')->accessToken;
+                // Redirect based on user type
+                if ($user->type === 0) {
+                    // return response()->json(['success' => 'Account verified.'], 200);
+
+                    return redirect('/user-dashboard');
+                } elseif ($user->type === 1) {
+                    return redirect('/admin-page');
+                } elseif ($user->type === 2) {
+                    return redirect('/warehouse-dashboard');
+                }
+            } else {
+                return response()->json(['error' => 'Unauthorized'], 401);
+            }
+        } catch (\Exception $e) {
+            \Log::error('Error during login: ' . $e->getMessage());
+            return response()->json(['error' => 'Something went wrong'], 500);
+        }
     }
-}
 
 
     public function signup(Request $request)
@@ -66,7 +74,8 @@ class ApiController extends Controller
                 'rcode' => 'string',
                 'password' => 'required|string|min:6',
                 'address'   =>'string',
-                'plan'      =>'required|in:1,2,3'
+                // 'plan'      =>'required|in:1,2,3',
+                'type'         =>'required|in:0,1,2',
 
                 // Add other validation rules as needed
             ]);
@@ -84,9 +93,10 @@ class ApiController extends Controller
                 'email' => $request->input('email'),
                 'contact' => $request->input('contact'),
                 'rcode' => $request->input('rcode'),
+                'type' => $request->input('type'),
                 'password' => Hash::make($request->input('password')),
                 'address'   =>$request->input('address'),
-                'plan'      =>$request->input('plan'),
+                'plan'      =>1,
                 'verified' => false,
                 'verification_token' => $verificationToken,
 
@@ -132,42 +142,42 @@ class ApiController extends Controller
     }
 
 
-    public function sendOtp(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            // 'name' => 'required|string',
-            'email' => 'required|email|unique:users',
-        ]);
+    // public function sendOtp(Request $request)
+    // {
+    //     $validator = Validator::make($request->all(), [
+    //         // 'name' => 'required|string',
+    //         'email' => 'required|email|unique:users',
+    //     ]);
 
-        if ($validator->fails()) {
-            return response()->json(['error' => $validator->errors()], 422);
-        }
-        $request->session()->put('signup_data', [
-            // 'name' => $request->input('name'),
-            'email' => $request->input('email'),
-            // Other relevant data
-        ]);
+    //     if ($validator->fails()) {
+    //         return response()->json(['error' => $validator->errors()], 422);
+    //     }
+    //     $request->session()->put('signup_data', [
+    //         // 'name' => $request->input('name'),
+    //         'email' => $request->input('email'),
+    //         // Other relevant data
+    //     ]);
 
-        // Generate OTP
-        $otp = rand(100000, 999999);
+    //     // Generate OTP
+    //     $otp = rand(100000, 999999);
 
-        // Save OTP in user session
-        $request->session()->put('otp', $otp);
+    //     // Save OTP in user session
+    //     $request->session()->put('otp', $otp);
 
-        try{
-        Mail::to($request->email)->send(new OtpMail($otp));
-        return redirect("/api/otp-check");
-        // return response()->json(['redirecting to OTP check' => 'success'], 200);
+    //     try{
+    //     Mail::to($request->email)->send(new OtpMail($otp));
+    //     return redirect("/api/otp-check");
+    //     // return response()->json(['redirecting to OTP check' => 'success'], 200);
 
-        }
-        catch (\Exception $e) {
-            //
-            Log::error('Error creating user: ' . $e->getMessage());
-            dd($e->getMessage());
-            return response()->json(['error' => 'Something went wrong'], 500);
-        }
+    //     }
+    //     catch (\Exception $e) {
+    //         //
+    //         Log::error('Error creating user: ' . $e->getMessage());
+    //         dd($e->getMessage());
+    //         return response()->json(['error' => 'Something went wrong'], 500);
+    //     }
 
-    }
+    // }
 
     // public function verifyOtp(Request $request)
     // {
@@ -229,28 +239,107 @@ class ApiController extends Controller
     // }
 
     public function logout(Request $request)
-{
-    try {
-        $accessToken = $request->user()->token();
+    {
+        try {
 
-        if ($accessToken) {
-            $accessToken->revoke();
-            DB::table('oauth_refresh_tokens')
-                ->where('access_token_id', $accessToken->id)
-                ->delete();
+
+            $user = Auth::user();
+
+            $user->tokens->each(function ($token) {
+                $token->delete();
+            });
+
+
+            auth()->logout();
+
+            $request->session()->forget('key');
+
+            return redirect("/");
+            // return response()->json(['loggged out' => 'Succesfully'], 200);
+
+        } catch (\Exception $e) {
+            \Log::error('Error during logout: ' . $e->getMessage());
+            dd($e->getMessage());
+            return response()->json(['error' => 'Something went wrong'], 500);
         }
-
-        auth()->logout();
-
-        $request->session()->forget('key');
-
-        // return redirect("/");
-        return response()->json(['loggged out' => 'Succesfully'], 200);
-
-    } catch (\Exception $e) {
-        \Log::error('Error during logout: ' . $e->getMessage());
-        return response()->json(['error' => 'Something went wrong'], 500);
     }
-}
+    public function calculate(Request $request)
+    {
+        try {
+            // Validate the form data
+            $validator = Validator::make($request->all(), [
+                'country' => 'required|string',
+                'city' => 'required|string',
+                'postal' => 'required|numeric',
+                'Weight' => 'required|numeric',
+                'length' => 'required|numeric',
+                'Width' => 'required|numeric',
+                'Height' => 'required|numeric',
+            ]);
+
+            // Check for validation errors
+            if ($validator->fails()) {
+                return response()->json(['errors' => $validator->errors()], 422);
+            }
+
+            // Define shipping rates based on country (you can add more countries and rates)
+            $shippingRates = [
+                'India' => 30,
+                // Add more countries here
+            ];
+
+            // Get the shipping rate for the selected country
+            $country = $request->input('country');
+            $shippingRate = $shippingRates[$country] ?? 0;
+
+            // Calculate volume (length * width * height) and compare with weight
+            $volume = $request->input('length') * $request->input('Width') * $request->input('Height');
+            $actualWeight = $request->input('Weight');
+
+            // Determine the chargeable weight (whichever is greater between volume and actual weight)
+            $chargeableWeight = max($volume, $actualWeight);
+
+            // Calculate the shipping cost
+            $shippingCost = $chargeableWeight * $shippingRate;
+
+            // You can now use $shippingCost for further processing or response
+
+            return response()->json(['shipping_cost' => $shippingCost]);
+        } catch (\Exception $e) {
+            // Handle exceptions
+            \Log::error('Error during shipping cost calculation: ' . $e->getMessage());
+
+            return response()->json(['error' => 'Something went wrong'], 500);
+        }
+    }
+
+    public function addcoupons(Request $request)
+    {
+        try {
+            // Validate the incoming request data
+            $request->validate([
+                'name' => 'required|string',
+                'discount' => 'required|numeric',
+                'amount' => 'required|numeric',
+                'code' => 'required|string|unique:coupons',
+            ]);
+
+            // Create a new coupon directly in the database
+            $coupon = Coupon::create([
+                'coupon_name' => $request->name,
+                'discount' => $request->discount ,
+                'min_amount' => $request->amount,
+                'code' => $request->code,
+                'status' => 'Activated', // Assuming the default status is active
+            ]);
+
+            // Return a JSON response indicating the success of the operation
+            return redirect('/coupon');
+        } catch (\Exception $e) {
+            // Return a JSON response with an error message if an exception occurs
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
 
 }
+

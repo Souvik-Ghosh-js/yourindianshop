@@ -41,11 +41,11 @@
         <span></span>
         </span>
         </a>
-        
-        <ul class="nav user-menu">
-        
 
-        
+        <ul class="nav user-menu">
+
+
+
         <li class="nav-item dropdown has-arrow main-drop">
         <a href="javascript:void(0);" class="dropdown-toggle nav-link userset" data-bs-toggle="dropdown">
         <span class="user-img"><img src="assets/img/profiles/avatar-17.jpg" alt="">
@@ -57,49 +57,43 @@
         <span class="user-img"><img src="assets/img/profiles/avatar-17.jpg" alt="">
         <span class="status online"></span></span>
         <div class="profilesets">
-        <h6>John Doe</h6>
-        <h5>Admin</h5>
+        <h6>User</h6>
         </div>
         </div>
         <hr class="m-0">
-        <a class="dropdown-item" href="profile.html"> <i class="me-2" data-feather="user"></i> My Profile</a>
+        <a class="dropdown-item" href="/user-profile"> <i class="me-2" data-feather="user"></i> My Profile</a>
         <hr class="m-0">
-        <a class="dropdown-item logout pb-0" href="signin.html"><img src="assets/img/icons/log-out.svg" class="me-2" alt="img">Logout</a>
+        <a class="dropdown-item logout pb-0" href="/signup-page"><img src="assets/img/icons/log-out.svg" class="me-2" alt="img">Logout</a>
         </div>
         </div>
         </li>
         </ul>
-        
-        
+
+
         <div class="dropdown mobile-user-menu">
         <a href="javascript:void(0);" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
         <div class="dropdown-menu dropdown-menu-right">
-        <a class="dropdown-item" href="profile.html">My Profile</a>
-        <a class="dropdown-item" href="signin.html">Logout</a>
+        <a class="dropdown-item" href="/profile.html">My Profile</a>
+        <a class="dropdown-item" href="/signin.html">Logout</a>
         </div>
         </div>
-        
+
         </div>
-        
-        
+
+
         <div class="sidebar" id="sidebar">
         <div class="sidebar-inner slimscroll">
         <div id="sidebar-menu" class="sidebar-menu">
         <ul>
-        <li class="active">
-        <a href="index.html"><img src="assets/img/icons/dashboard.svg" alt="img"><span> Dashboard</span> </a>
+        <li>
+        <a href=""><img src="assets/img/icons/dashboard.svg" alt="img"><span> Dashboard</span> </a>
         </li>
         <li><a href="">Assisted Purchase</a></li>
         <li><a href="">Indian Shops</a></li>
-        <li class="submenu">
-        <a href="javascript:void(0);"><img src="assets/img/icons/product.svg" alt="img"><span> Help</span> <span class="menu-arrow"></span></a>
-        <ul>
         <li><a href="">Prohibited Items</a></li>
         <li><a href="">Shipping Calc</a></li>
-        </ul>
-        </li>
         <li>
-        <a href="purchasereport.html"><i data-feather="file"></i><span> Wallet</span> </a>
+        <a href="/purchase-report"><i data-feather="file"></i><span> Wallet</span> </a>
         </li>
         </ul>
         </div>
@@ -147,7 +141,7 @@
 <td>
 1
 </td>
-<td>Product Acceptance Request</td>
+<td>Proof of purchase</td>
 <td>38698.00</td>
 <td>13/02/2024</td>
 <td>Wallet</td>

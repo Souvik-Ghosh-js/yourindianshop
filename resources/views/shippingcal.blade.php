@@ -103,20 +103,43 @@ https://www.tooplate.com/view/2127-little-fashion
 
                 <img src="images/shipping.jpg" class="header-image img-fluid" alt="">
             </header>
-
+            @php
+            $countries = [
+    "Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Antigua and Barbuda", "Argentina", "Armenia", "Australia", "Austria",
+    "Azerbaijan", "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bhutan",
+    "Bolivia", "Bosnia and Herzegovina", "Botswana", "Brazil", "Brunei", "Bulgaria", "Burkina Faso", "Burundi", "Cabo Verde", "Cambodia",
+    "Cameroon", "Canada", "Central African Republic", "Chad", "Chile", "China", "Colombia", "Comoros", "Congo", "Costa Rica",
+    "Croatia", "Cuba", "Cyprus", "Czechia", "Denmark", "Djibouti", "Dominica", "Dominican Republic", "Ecuador", "Egypt",
+    "El Salvador", "Equatorial Guinea", "Eritrea", "Estonia", "Eswatini", "Ethiopia", "Fiji", "Finland", "France", "Gabon",
+    "Gambia", "Georgia", "Germany", "Ghana", "Greece", "Grenada", "Guatemala", "Guinea", "Guinea-Bissau", "Guyana",
+    "Haiti", "Honduras", "Hungary", "Iceland", "India", "Indonesia", "Iran", "Iraq", "Ireland", "Israel", "Italy",
+    "Jamaica", "Japan", "Jordan", "Kazakhstan", "Kenya", "Kiribati", "Korea, North", "Korea, South", "Kosovo", "Kuwait",
+    "Kyrgyzstan", "Laos", "Latvia", "Lebanon", "Lesotho", "Liberia", "Libya", "Liechtenstein", "Lithuania", "Luxembourg",
+    "Madagascar", "Malawi", "Malaysia", "Maldives", "Mali", "Malta", "Marshall Islands", "Mauritania", "Mauritius", "Mexico",
+    "Micronesia", "Moldova", "Monaco", "Mongolia", "Montenegro", "Morocco", "Mozambique", "Myanmar", "Namibia", "Nauru",
+    "Nepal", "Netherlands", "New Zealand", "Nicaragua", "Niger", "Nigeria", "North Macedonia", "Norway", "Oman", "Pakistan",
+    "Palau", "Panama", "Papua New Guinea", "Paraguay", "Peru", "Philippines", "Poland", "Portugal", "Qatar", "Romania",
+    "Russia", "Rwanda", "Saint Kitts and Nevis", "Saint Lucia", "Saint Vincent and the Grenadines", "Samoa", "San Marino", "Sao Tome and Principe", "Saudi Arabia", "Senegal",
+    "Serbia", "Seychelles", "Sierra Leone", "Singapore", "Slovakia", "Slovenia", "Solomon Islands", "Somalia", "South Africa", "South Sudan",
+    "Spain", "Sri Lanka", "Sudan", "Suriname", "Sweden", "Switzerland", "Syria", "Taiwan", "Tajikistan", "Tanzania",
+    "Thailand", "Timor-Leste", "Togo", "Tonga", "Trinidad and Tobago", "Tunisia", "Turkey", "Turkmenistan", "Tuvalu", "Uganda",
+    "Ukraine", "United Arab Emirates", "United Kingdom", "United States", "Uruguay", "Uzbekistan", "Vanuatu", "Vatican City", "Venezuela", "Vietnam",
+    "Yemen", "Zambia", "Zimbabwe"
+];
+@endphp
             <section class="contact section-padding">
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-6 col-12">
                             <h2 class="mb-4">Let's <span>Calculate</span></h2>
 
-                            <form class="contact-form me-lg-5 pe-lg-3" role="form">
-
-                                <select class="form-control my-4">
-                                    <option> Country</option>
-                                    <option>1</option>
-                                    <option>1</option>
-                                    <option>1</option>
+                            <form class="contact-form me-lg-5 pe-lg-3" role="form" action="/api/shipcalc" method="post">
+                                @csrf
+                                <select class="form-control my-4" name="country">
+                                    <option value="">Select Country</option>
+                                    @foreach ($countries as $country)
+                                        <option value="{{ $country }}">{{ $country }}</option>
+                                    @endforeach
                                 </select>
 
                                 <div class="form-floating my-4">
@@ -129,7 +152,7 @@ https://www.tooplate.com/view/2127-little-fashion
                                     <input type="number" name="postal" id="postal" class="form-control" placeholder="postal" required>
                                     <label for="subject">Postal</label>
                                 </div>
-                                <p>Percel Details</p>
+                                <p>Parcel Details</p>
                                 <div class="form-floating my-2">
                                     <input type="number" name="Weight" id="Weight" class="form-control" placeholder="Weight " required>
                                     <label for="subject">Weight in KG</label>

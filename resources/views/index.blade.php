@@ -55,6 +55,7 @@ https://www.tooplate.com/view/2127-little-fashion
                     <div class="d-lg-none">
                         <a href="/login-page" ><span style="font-size:15px; margin: 5px;">Log In</span></a>|
                         <a href="/signup-page" ><span style="font-size:14px; margin: 5px;">Sign Up</span></a>
+
                         <!-- <a href="sign-in.html" class="bi-person custom-icon me-3"></a> -->
                     </div>
 
@@ -82,10 +83,14 @@ https://www.tooplate.com/view/2127-little-fashion
                                 <a class="nav-link" href="/contact">Contact</a>
                             </li>
                         </ul>
-
+@guest
                         <div class="d-none d-lg-block">
                                 <a href="/login-page" ><span style="font-size:15px; margin: 5px;">Log In</span></a>
                                 <a href="/signup-page" ><span style="font-size:15px; margin: 5px;">Sign Up</span></a>
+                                @else
+                                <form method="post" action="/logout">@csrf
+                       <button type="submit"> <a><span style="font-size:14px; margin: 5px;">Logout</span></a></button>
+@endguest</form>
                                 <!-- <a href="sign-in.html" class="bi-person custom-icon me-3"></a> -->
                             </div>
                     </div>
