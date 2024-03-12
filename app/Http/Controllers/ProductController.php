@@ -147,11 +147,9 @@ class ProductController extends Controller
                 'landmark' => 'required',
                 'country' => 'required',
             ]);
-
             // Assuming you have a product ID (adjust this according to your form)
             $productId = $validatedData['productId'];
              // Replace with the actual product ID
-
             // Find the product by ID
             $product = Product::find($productId);
 
@@ -164,7 +162,6 @@ class ProductController extends Controller
             // Add the concatenated address to the product's address field
             $product->update(['address' => $address]);
             $product->update(['status' => 'Dispatch']);
-
             Notification::create([
                 'warehouse_id' => 1,
                 'user_id' => $user_id,

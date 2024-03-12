@@ -276,7 +276,7 @@
 
                                 <button class="badges bg-lightred" style="color:#fff; outline:none; border: none; padding: 10px 15px; text-decoration: none;">Request Return</button>
                                 </form>
-                                <a class="badges bg-lightgreen" style="color:#fff; text-decoration: none;" onclick="showConfirmation1('Address')">Dispatch</a>
+                                <a class="badges bg-lightgreen" style="color:#fff; text-decoration: none;" onclick="showConfirmation1('Address', '{{ $product->product_id }}')">Dispatch</a>
 
                                 @else
                                     <span>Your Product is {{$product->status}}</span>
@@ -290,10 +290,57 @@
 
                             <td>{{ $product->created_at->format('d-m-Y') }}</td>
                         </tr>
+
                     @endforeach
                 </tbody>
 
 </table>
+<div class="confirmation-popup" id="confirmationPopup1">
+    <h2>Confirm Action</h2>
+    <p>Enter Your Address
+        <span id="confirmationAction1">
+
+
+        <form method="post" action="/api/add/address">
+            @csrf
+        <div class="row">
+            <div class="col-lg-6 col-sm-8 col-12">
+
+            <input type="hidden" name="productId" id="popupProductId" value="">
+
+                <div class="form-group">
+                    <label>Country<span class="mandatory">*</span></label>
+                    <input type="text" name="country" id="country" placeholder="Country">
+                </div>
+            </div>
+            <div class="col-lg-6 col-sm-8 col-12">
+                <div class="form-group">
+                    <label>City<span class="mandatory">*</span></label>
+                    <input type="text" name="city" id="city" placeholder="City">
+                </div>
+            </div>
+            <div class="col-lg-6 col-sm-8 col-12">
+                <div class="form-group">
+                    <label>Postal Code<span class="mandatory">*</span></label>
+                    <input type="text" name="postalCode" id="postalCode" placeholder="Postal Code">
+                </div>
+            </div>
+            <div class="col-lg-6 col-sm-8 col-12">
+                <div class="form-group">
+                    <label>Landmark<span class="mandatory">*</span></label>
+                    <input type="text" name="landmark" id="landmark" placeholder="Landmark">
+                </div>
+            </div>
+        </div>
+    <button class="yes" onclick="confirmAction(true, '')">Confirm</button>
+    <button class="no" onclick="confirmAction(false)">No</button>
+    </form>
+
+
+
+        </span>
+    </p>
+</div>
 </div>
 </div>
 </div>
@@ -353,54 +400,7 @@
     }
 </style>
 
-<div class="confirmation-popup" id="confirmationPopup1">
-    <h2>Confirm Action</h2>
-    <p>Enter Your Address
-        <span id="confirmationAction1">
 
-
-        <form method="post" action="api/add/address">
-            @csrf
-        <div class="row">
-            <div class="col-lg-6 col-sm-8 col-12">
-    @foreach ($products as $product)
-
-                <input type="hidden" name="productId" value="{{ $product->product_id }}">
-    @endforeach
-
-                <div class="form-group">
-                    <label>Country<span class="mandatory">*</span></label>
-                    <input type="text" name="country" id="country" placeholder="Country">
-                </div>
-            </div>
-            <div class="col-lg-6 col-sm-8 col-12">
-                <div class="form-group">
-                    <label>City<span class="mandatory">*</span></label>
-                    <input type="text" name="city" id="city" placeholder="City">
-                </div>
-            </div>
-            <div class="col-lg-6 col-sm-8 col-12">
-                <div class="form-group">
-                    <label>Postal Code<span class="mandatory">*</span></label>
-                    <input type="text" name="postalCode" id="postalCode" placeholder="Postal Code">
-                </div>
-            </div>
-            <div class="col-lg-6 col-sm-8 col-12">
-                <div class="form-group">
-                    <label>Landmark<span class="mandatory">*</span></label>
-                    <input type="text" name="landmark" id="landmark" placeholder="Landmark">
-                </div>
-            </div>
-        </div>
-    <button class="yes" onclick="confirmAction(true, '')">Confirm</button>
-    <button class="no" onclick="confirmAction(false)">No</button>
-</form>
-
-
-
-        </span>
-    </p>
-</div>
 
 <div class="confirmation-popup" id="confirmationPopup">
     <h2>Confirm Action</h2>
@@ -416,10 +416,12 @@
 
 <script>
 
-    function showConfirmation1(action) {
-        document.getElementById('confirmationAction1').textContent = action;
-        document.getElementById('confirmationPopup1').style.display = 'block';
-    }
+function showConfirmation1(action, productId) {
+    document.getElementById('popupProductId').value = productId; // Set the value of the hidden input field with the product ID
+    document.getElementById('confirmationAction1').textContent = action;
+    document.getElementById('confirmationPopup1').style.display = 'block';
+}
+
 
     function showConfirmation(action) {
         document.getElementById('confirmationAction').textContent = action;

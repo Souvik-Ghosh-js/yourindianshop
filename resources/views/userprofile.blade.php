@@ -116,19 +116,19 @@
 <img src="assets/img/customer/customer5.jpg" alt="img" id="blah">
 </div>
 <div class="profile-contentname">
-<h1>User Name</h1>
+<h1>{{$user->name}}</h1>
 </div>
 </div>
 </div>
 <div class="row m-4">
     <div class="d-flex col-lg-6 col-12">
-    <h4>Email ID: </h4> <span class="m-1" style="font-size: 16px;">akashranjanmandal@gmail.com</span>
+    <h4>Email ID: </h4> <span class="m-1" style="font-size: 16px;">{{$user->email}}</span>
     </div>
     <div class="d-flex col-lg-6 col-12">
-        <h4>Phone Number: </h4><span class="m-1" style="font-size: 16px;">+91 731929 2532</span>
+        <h4>Phone Number: </h4><span class="m-1" style="font-size: 16px;">{{$user->contact}}</span>
     </div>
     <div class="d-flex col-lg-6 col-12">
-        <h4>Wallet Balance: </h4> <span class="m-1" style="font-size: 16px;">₹ 1000</span>
+        <h4>Wallet Balance: </h4> <span class="m-1" style="font-size: 16px;">₹ 5000</span>
     </div>
     </div>
     <div class="card">

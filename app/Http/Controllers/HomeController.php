@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Models\AddedProduct;
 use App\Models\Coupon;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 
 
@@ -51,10 +52,10 @@ class HomeController extends Controller
 public function userdashboard()
 {
     $warehouses = Warehouse::all();
-    $products = Product::all();
+    $userProducts = Product::where('user_id', auth()->id())->get();
 
     // Sort products based on status
-    $sortedProducts = collect($products)->sortBy(function ($product) {
+    $sortedProducts = $userProducts->sortBy(function ($product) {
         switch ($product->status) {
             case 'Accepted':
                 return 1;
@@ -122,15 +123,26 @@ public function userdashboard()
     public function purchasereport(){
         return view('purchasereport');
     }
-    public function userprofile(){
-        $warehouses = Warehouse::all();
-        $products = Product::all();
-        $notifications = DB::table('user_notifications')
+    public function userprofile()
+{
+    // Get the authenticated user
+    $user = Auth::user();
+
+    // Fetch other data
+    $warehouses = Warehouse::all();
+    $products = Product::all();
+    $notifications = DB::table('user_notifications')
         ->where('self', 0)
         ->get();
 
-    return view('userprofile', ['warehouses' => $warehouses, 'products' => $products, 'notifications' => $notifications]);
-        }
+    // Pass user data to the view
+    return view('userprofile', [
+        'user' => $user,
+        'warehouses' => $warehouses,
+        'products' => $products,
+        'notifications' => $notifications,
+    ]);
+}
 
     public function addcustomer(){
             return view('admin/addcustomer');

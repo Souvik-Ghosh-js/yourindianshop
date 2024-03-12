@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\OtpMail;
 use App\Mail\VerifyEmail;
 use App\Models\Coupon;
+use App\Models\Referral;
+
 
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -71,44 +73,59 @@ class ApiController extends Controller
                 'lname' => 'required|string',
                 'email' => 'required|email|unique:users',
                 'contact' => 'required|numeric',
-                'rcode' => 'string',
                 'password' => 'required|string|min:6',
-                'address'   =>'string',
-                // 'plan'      =>'required|in:1,2,3',
-                'type'         =>'required|in:0,1,2',
-
-                // Add other validation rules as needed
+                'address' => 'string',
+                'type' => 'required|in:0,1,2',
+                'rcode'=> 'string',
             ]);
 
             if ($validator->fails()) {
                 return response()->json(['error' => $validator->errors()], 422);
             }
-            $verificationToken = Str::random(60); // Generate a random token
 
-            // You can customize the logic for saving user data to the database here
-            $user = User::create([
+            $verificationToken = Str::random(60);
+
+            // Create a user without saving to get the user ID
+            $user = new User([
                 'fname' => $request->input('fname'),
                 'lname' => $request->input('lname'),
-                'name'  =>$request->input('fname') . ' ' .  $request->input('lname'),
+                'name' => $request->input('fname') . ' ' . $request->input('lname'),
                 'email' => $request->input('email'),
                 'contact' => $request->input('contact'),
-                'rcode' => $request->input('rcode'),
+                'rcode' => $request->input('rcode') ?: null, // Generate a random 6-character alphanumeric code
                 'type' => $request->input('type'),
                 'password' => Hash::make($request->input('password')),
-                'address'   =>$request->input('address'),
-                'plan'      =>1,
+                'address' => $request->input('address'),
+                'plan' => 1,
                 'verified' => false,
                 'verification_token' => $verificationToken,
-
-                // Add other user data fields as needed
             ]);
+
+            $user->save(); // Save the user to get the user ID
+            $referralcode = Str::random(6);
+            // Store the referral code in the referrals table
+            DB::table('referrals')->insert([
+                'user_id' => $user->id,
+                'referral_user_id' => null,
+                'referral_code' => $referralcode,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+
+            if ($request->has('rcode')) {
+                $referral = Referral::where('referral_code', $request->input('rcode'))->first();
+
+                if ($referral) {
+                    // If a matching referral code is found, update the referral_user_id
+                    $referral->update(['referral_user_id' => $user->id]);
+                }
+            }
+
 
             Mail::to($request->input('email'))->send(new VerifyEmail($user));
 
             return redirect('/login-page')->with('success', 'Check Your email for verification');
-
         } catch (\Exception $e) {
-            dd($e->getMessage());
             \Log::error('Error during signup: ' . $e->getMessage());
             return response()->json(['error' => 'Something went wrong'], 500);
         }
